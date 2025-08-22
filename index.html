@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seriöser Berufseignungstest</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #1e293b, #000);
+        color: #f1f5f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+      .container {
+        max-width: 700px;
+        background: #0f172a;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      }
+      h1,
+      h2 {
+        text-align: center;
+      }
+      p {
+        text-align: center;
+        color: #94a3b8;
+      }
+      .question {
+        margin: 1rem 0;
+      }
+      .question label {
+        display: block;
+        margin-bottom: 0.3rem;
+        color: #cbd5e1;
+      }
+      .scale-buttons {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-start;
+        margin-bottom: 1rem;
+      }
+      .scale-buttons button {
+        flex: 1;
+        border-radius: 50%;
+        width: 2.5rem;
+        height: 2.5rem;
+        border: 1px solid #334155;
+        background: #1e293b;
+        color: #f1f5f9;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      .scale-buttons button.selected {
+        background: #3b82f6;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid #334155;
+        border-radius: 0.5rem;
+        background: #1e293b;
+        color: #f1f5f9;
+      }
+      button.next {
+        margin-top: 1rem;
+        padding: 0.6rem 1.2rem;
+        border: none;
+        border-radius: 0.5rem;
+        background: #3b82f6;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      button.next:hover {
+        background: #2563eb;
+      }
+      button.next:disabled {
+        background: #64748b;
+        cursor: not-allowed;
+      }
+      .step {
+        display: none;
+      }
+      .active {
+        display: block;
+      }
+      .result {
+        margin-top: 1.5rem;
+        background: #1e293b;
+        padding: 1rem;
+        border-radius: 0.5rem;
+      }
+      .job-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-top: 0.5rem;
+      }
+      footer {
+        text-align: center;
+        margin-top: 1rem;
+        font-size: 0.8rem;
+        color: #64748b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Berufseignungstest™</h1>
+      <p>Bitte beantworten Sie die Fragen ehrlich. Dauer: ca. 3–5 Minuten.</p>
+
+      <div class="step active" id="step1">
+        <h2>Persönliche Angaben</h2>
+        <label>Name: <input type="text" /></label>
+        <label>Alter: <input type="number" min="10" max="100" /></label>
+        <button class="next" onclick="nextStep(2)">Weiter</button>
+      </div>
+
+      <div class="step" id="step2">
+        <h2>Interessen</h2>
+        <div class="question">
+          <label>Wie sehr mögen Sie Mathematik?</label>
+          <div class="scale-buttons" data-question="mathe"></div>
+        </div>
+        <div class="question">
+          <label>Wie sehr mögen Sie Kreativität?</label>
+          <div class="scale-buttons" data-question="kreativ"></div>
+        </div>
+        <div class="question">
+          <label>Wie sehr mögen Sie körperliche Arbeit?</label>
+          <div class="scale-buttons" data-question="körperlich"></div>
+        </div>
+        <div class="question">
+          <label>Wie sehr interessieren Sie sich für Technik?</label>
+          <div class="scale-buttons" data-question="technik"></div>
+        </div>
+        <button class="next" id="next2" disabled onclick="nextStep(3)">
+          Weiter
+        </button>
+      </div>
+
+      <div class="step" id="step3">
+        <h2>Arbeitsstil</h2>
+        <div class="question">
+          <label>Wie gut arbeiten Sie im Team?</label>
+          <div class="scale-buttons" data-question="team"></div>
+        </div>
+        <div class="question">
+          <label>Wie stressresistent sind Sie?</label>
+          <div class="scale-buttons" data-question="stress"></div>
+        </div>
+        <div class="question">
+          <label>Wie sorgfältig arbeiten Sie?</label>
+          <div class="scale-buttons" data-question="sorgfalt"></div>
+        </div>
+        <div class="question">
+          <label>Wie selbstständig können Sie arbeiten?</label>
+          <div class="scale-buttons" data-question="selbstständig"></div>
+        </div>
+        <button class="next" id="next3" disabled onclick="nextStep(4)">
+          Weiter
+        </button>
+      </div>
+
+      <div class="step" id="step4">
+        <h2>Lifestyle</h2>
+        <div class="question">
+          <label>Wie sehr legen Sie Wert auf Ordnung?</label>
+          <div class="scale-buttons" data-question="ordnung"></div>
+        </div>
+        <div class="question">
+          <label>Sind Sie ein Frühaufsteher?</label>
+          <div class="scale-buttons" data-question="früh"></div>
+        </div>
+        <div class="question">
+          <label>Wie wichtig ist Ihnen Flexibilität?</label>
+          <div class="scale-buttons" data-question="flexibel"></div>
+        </div>
+        <div class="question">
+          <label>Wie sehr mögen Sie Routinearbeit?</label>
+          <div class="scale-buttons" data-question="routine"></div>
+        </div>
+        <button class="next" id="next4" disabled onclick="nextStep(5)">
+          Weiter
+        </button>
+      </div>
+
+      <div class="step" id="step5">
+        <h2>Arbeitspräferenzen</h2>
+        <div class="question">
+          <label>Bevorzugen Sie Indoor- oder Outdoor-Arbeit?</label
+          ><select>
+            <option>Indoor</option>
+            <option>Outdoor</option>
+            <option>Keine Präferenz</option>
+          </select>
+        </div>
+        <div class="question">
+          <label>Bevorzugen Sie frühe oder späte Arbeitszeiten?</label
+          ><select>
+            <option>Früh</option>
+            <option>Spät</option>
+            <option>Keine Präferenz</option>
+          </select>
+        </div>
+        <div class="question">
+          <label
+            >Möchten Sie lieber viel Bewegung oder eher sitzende Arbeit?</label
+          ><select>
+            <option>Viel Bewegung</option>
+            <option>Sitzende Arbeit</option>
+            <option>Ausgeglichen</option>
+          </select>
+        </div>
+        <button class="next" onclick="showResult()">Auswertung anzeigen</button>
+      </div>
+
+      <div class="step" id="result">
+        <h2>Ergebnis</h2>
+        <div class="result">
+          <div>Basierend auf Ihren Antworten empfehlen wir Ihnen:</div>
+          <div class="job-title" id="jobTitle"></div>
+          <p id="jobBlurb"></p>
+        </div>
+        <button class="next" onclick="restart()">Nochmal versuchen</button>
+      </div>
+
+      <footer>© <span id="year"></span> Berufseignungstest™</footer>
+    </div>
+
+    <script>
+      const jobs = [
+        {
+          title: "Müllwerker:in",
+          blurb: "Früh fertig, echte Gains inklusive.",
+        },
+        {
+          title: "Kassenkraft (Discounter)",
+          blurb: "Scanner-Speedrun. Beep. Beep. Beep.",
+        },
+        {
+          title: "Regalauffüller:in (Nachtschicht)",
+          blurb: "Wenn andere schlafen, baust du Ordnung ins Gemüse-Dschungel.",
+        },
+        {
+          title: "Leergut-Rücknahme-Profi",
+          blurb: "Du und die PET-Flasche – eine epische Liebes-Hass-Story.",
+        },
+        {
+          title: "Parkplatz-Einweiser:in",
+          blurb: "Der/Die wahre Mastermind hinter perfekten Parklücken.",
+        },
+        {
+          title: "Dixi-Service Techniker:in",
+          blurb: "Nicht glamourös, aber systemrelevant.",
+        },
+        {
+          title: "Zeitungszusteller:in (5 Uhr)",
+          blurb: "Cardio + frische Luft. Gains & News in einem Run.",
+        },
+        {
+          title: "Pfandgut-Sortierer:in",
+          blurb: "Sorting-Algorithmus in Human-Form.",
+        },
+        {
+          title: "Schnee-Räum-Team (Winter)",
+          blurb: "Du gibst dem Winter Kontra – mit Schaufel und Stil.",
+        },
+        {
+          title: "Kartoffelsortierer:in (Saison)",
+          blurb: "Du entscheidest über Knollen-Karrieren.",
+        },
+      ];
+
+      function nextStep(n) {
+        document
+          .querySelectorAll(".step")
+          .forEach((s) => s.classList.remove("active"));
+        document.getElementById("step" + n).classList.add("active");
+      }
+
+      function showResult() {
+        const job = jobs[Math.floor(Math.random() * jobs.length)];
+        document.getElementById("jobTitle").textContent = job.title;
+        document.getElementById("jobBlurb").textContent = job.blurb;
+        document
+          .querySelectorAll(".step")
+          .forEach((s) => s.classList.remove("active"));
+        document.getElementById("result").classList.add("active");
+      }
+
+      function restart() {
+        document
+          .querySelectorAll(".step")
+          .forEach((s) => s.classList.remove("active"));
+        document.getElementById("step1").classList.add("active");
+      }
+
+      // Skalenbuttons erzeugen und Auswahl aktivieren
+      function initScaleButtons() {
+        document.querySelectorAll(".scale-buttons").forEach((group) => {
+          for (let i = 1; i <= 5; i++) {
+            const btn = document.createElement("button");
+            btn.textContent = i;
+            btn.addEventListener("click", () => {
+              group
+                .querySelectorAll("button")
+                .forEach((b) => b.classList.remove("selected"));
+              btn.classList.add("selected");
+              checkStepCompletion(group.closest(".step"));
+            });
+            group.appendChild(btn);
+          }
+        });
+      }
+
+      function checkStepCompletion(step) {
+        const allAnswered = Array.from(
+          step.querySelectorAll(".scale-buttons")
+        ).every((g) => g.querySelector("button.selected"));
+        const nextBtn = step.querySelector("button.next");
+        if (nextBtn) nextBtn.disabled = !allAnswered;
+      }
+
+      initScaleButtons();
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
